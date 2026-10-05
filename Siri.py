@@ -1,67 +1,73 @@
-import speech_recognition as sr
-import webbrowser
-import pyttsx3
+# import speech_recognition as sr
+# import webbrowser
+# import pyttsx3
 
+# WAKE_WORD = "siri"
+# LANGUAGE = "en-IN"
 
-recognizer = sr.Recognizer()
-engine  = pyttsx3.init()
+# engine = pyttsx3.init()
 
-def speak(text):
-       engine.say(text)
-       engine.runAndWait()
+# def speak(text):
+#     engine.say(text)
+#     engine.runAndWait()
 
-def  processCommaand (c):
-       c = c.lower()
-       if "open google" in c:
-        webbrowser.open("https://google.com")
-       elif "open instagram" in c:
-        webbrowser.open("https://instagram.com")
-       elif "open facebook" in c:
-        webbrowser.open("https://facebook.com")
-       elif "open linkedin" in c:
-        webbrowser.open("https://linkedin.com")
-       elif "open youtube" in c:
-        webbrowser.open("https://youtube.com")
-       elif "open github" in c:
-         webbrowser.open("https://github.com")
-       else:
-        speak("Sorry, I don't know that command")
+# def process_command(c):
+#     c = c.lower()
+#     if "open google" in c:
+#         webbrowser.open("https://google.com")
+#     elif "open instagram" in c:
+#         webbrowser.open("https://instagram.com")
+#     elif "open facebook" in c:
+#         webbrowser.open("https://facebook.com")
+#     elif "open linkedin" in c:
+#         webbrowser.open("https://linkedin.com")
+#     elif "open youtube" in c:
+#         webbrowser.open("https://youtube.com")
+#     elif "open github" in c:
+#         webbrowser.open("https://github.com")
+#     else:
+#         speak("Sorry, I don't know that command")
 
-        WAKE_WORD = "siri"
+# def listen_once(r, source, timeout, limit):
+  
+#     try:
+#         audio = r.listen(source, timeout=timeout, phrase_time_limit=limit)
+#         return r.recognize_google(audio, language=LANGUAGE).lower()
+#     except sr.WaitTimeoutError:
+#         return None
+#     except sr.UnknownValueError:
+#         return None
+#     except sr.RequestError as e:
+#         print("Could not reach Google speech service:", e)
+#         return None
 
-        LANGUAGE = "en-IN"
- 
-if __name__ == "__main__":
-       speak("Initializing siri .....")
-       r = sr.Recognizer()
+# if __name__ == "__main__":
+#     speak("Initializing siri")
+#     r = sr.Recognizer()
+#     r.pause_threshold = 0.8         
+#     r.dynamic_energy_threshold = True
 
-       with sr.Microphone() as source:
-        # Calibrate for background noise once
-        r.adjust_for_ambient_noise(source, duration=1)
+#     with sr.Microphone() as source:
+#         print("Calibrating for background noise...")
+#         r.adjust_for_ambient_noise(source, duration=1.5)
 
-        while True:
-            try:
-                print("Listening for wake word...")
-                audio = r.listen(source, timeout=5, phrase_time_limit=3)
-                word = r.recognize_google(audio)
-                print("Heard:", word)
+#         while True:
+#             print("Listening for wake word...")
+#             word = listen_once(r, source, timeout=5, limit=4)
 
-                if word.lower() == "siri":
-                    speak("Yes?")
-                    print("siri active...")
+#             if word is None:
+#                 continue                     
 
-                    audio = r.listen(source, timeout=5, phrase_time_limit=5)
-                    command = r.recognize_google(audio)
-                    print("Command:", command)
-                processCommaand(command)
+#             print("Heard:", word)
 
-            except sr.WaitTimeoutError:
-                # Nobody spoke - just try again
-                continue
-            except sr.UnknownValueError:
-                # Speech wasn't understood - just try again
-                continue
-            except sr.RequestError as e:
-                print("Could not reach Google speech service; {0}".format(e))
-            except Exception as e:
-                print("Error:", e)
+#             if WAKE_WORD in word:            
+#                 speak("Yes?")
+#                 print("siri active... say your command")
+
+#                 command = listen_once(r, source, timeout=6, limit=6)
+
+#                 if command is None:
+#                     speak("I didn't catch that")
+#                 else:
+#                     print("Command:", command)
+#                     process_command(command)  
